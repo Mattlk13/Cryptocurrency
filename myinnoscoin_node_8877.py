@@ -184,7 +184,7 @@ def replace_chain():
     return jsonify(response), 200
 
 # Running the app
-app.run(host = '127.0.0.1', port = 8899)
+app.run(host = '127.0.0.1', port = 8877)
         
         
         
