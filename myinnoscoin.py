@@ -23,13 +23,16 @@ class Blockchain:
     
     def __init__(self):
         self.chain = []
+        self.transactions = []
         self.create_block(proof = 1, previous_hash = '0')
         
     def create_block(self, proof, previous_hash):
         block = {'index': len(self.chain) + 1,
                  'timestamp' : str(datetime.datetime.now()),
                  'proof' : proof,
-                 'previous_hash' : previous_hash}
+                 'previous_hash' : previous_hash,
+                 'transactions' : self.transactions}
+        self.transactions = []
         self.chain.append(block)
         return block
 
@@ -66,6 +69,13 @@ class Blockchain:
             previous_block = block
             block_index += 1
         return True
+    
+    def add_transactions(self, sender, reciever, amount):
+        self.transactions.append({'sender' : sender,
+                                  'reciever' : reciever,
+                                  'amount' : amount})
+        previous_block = self.get_previous_block()
+        return previous_block['index'] + 1
     
 # Mining our Blockchain
 
@@ -107,7 +117,7 @@ def is_valid():
         response = {'message': 'Houston, we have a problem. The Blockchain is not valid.'}
     return jsonify(response), 200
 
-# Decentralizing our Blockchain
+# Decentralizing our Blockchain [NEW PART]
 
 # Running the app
 app.run(host = '0.0.0.0', port = 8899)
